@@ -1,13 +1,11 @@
 #include <iostream>
 #include <fstream>
-#include <vector>
 #include <array>
 #include <algorithm>
 
 using namespace std;
 
-void task1(const string &);
-void task2(const string &);
+void task1(const string &, int);
 
 int main() {
     string path;
@@ -25,10 +23,10 @@ int main() {
             fileStream.close();
             cout << "File successfully opened!\n";
             cout << "First task data:\n";
-            task1(path);
+            task1(path, 80);
 
             cout << "Second task data:\n";
-            task2(path);
+            task1(path, 256);
 
             break;
         }
@@ -42,7 +40,7 @@ int main() {
     }while(confirmChar == 'm');
 }
 
-void task1(const string &path)
+void task1(const string &path, const int days)
 {
     fstream stream;
     stream.open(path);
@@ -55,34 +53,7 @@ void task1(const string &path)
         ++numOfFishPerState[fishState];
     }
 
-    for (unsigned i = 0; i < 80; ++i)
-    {
-        auto numGivingBirth = numOfFishPerState[0];
-        rotate(numOfFishPerState.begin(), numOfFishPerState.begin() + 1, numOfFishPerState.end());
-        numOfFishPerState[6] += numGivingBirth;
-    }
-
-    unsigned long long sum = 0;
-    for(auto m : numOfFishPerState)
-        sum += m;
-
-    cout << sum << '\n';
-}
-
-void task2(const string &path)
-{
-    fstream stream;
-    stream.open(path);
-
-    string line;
-    array<unsigned long long, 9> numOfFishPerState = {};
-    while (getline(stream, line, ','))
-    {
-        int fishState = stoi(line);
-        ++numOfFishPerState[fishState];
-    }
-
-    for (unsigned i = 0; i < 256; ++i)
+    for (unsigned i = 0; i < days; ++i)
     {
         auto numGivingBirth = numOfFishPerState[0];
         rotate(numOfFishPerState.begin(), numOfFishPerState.begin() + 1, numOfFishPerState.end());
